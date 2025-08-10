@@ -9,7 +9,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Connect MongoDB
-mongoose.connect('mongodb://localhost:27017/whatsapp', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://sattwikmanna6359:whatsapp@whatsapp.ieup5p8.mongodb.net/?retryWrites=true&w=majority&appName=whatsapp', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // WebSocket Setup
 const http = require('http').createServer(app);
@@ -37,7 +37,7 @@ app.post('/webhook', async (req, res) => {
             body: msg.text.body,
             timestamp: Number(msg.timestamp),
             type: msg.type,
-            status: 'sent'
+            status: 'read'
           });
           io.emit('new_message', m); // Notify frontend
         });
