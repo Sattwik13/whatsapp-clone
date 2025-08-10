@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { PaperClipIcon, FaceSmileIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
+import { PaperClipIcon, FaceSmileIcon, PaperAirplaneIcon, ArrowLeftStartOnRectangleIcon  } from '@heroicons/react/24/outline';
 
-const socket = io("http://localhost:5000");
+const socket = io("https://whatsapp-clone-qi4h.onrender.com");
 
 function App() {
   const [chats, setChats] = useState([]);
@@ -15,14 +15,14 @@ function App() {
 
   // Fetch conversation list on load
   useEffect(() => {
-    axios.get("http://localhost:5000/conversations")
+    axios.get("https://whatsapp-clone-qi4h.onrender.com/conversations")
       .then(res => setChats(res.data));
   }, []);
 
   // Fetch messages for selected chat
   useEffect(() => {
     if (activeWaId)
-      axios.get("http://localhost:5000/messages/" + activeWaId)
+      axios.get("https://whatsapp-clone-qi4h.onrender.com/messages/" + activeWaId)
         .then(res => setMessages(res.data));
   }, [activeWaId]);
 
@@ -39,7 +39,7 @@ function App() {
   // Send new message
   const sendMessage = async () => {
     if (!input) return;
-    await axios.post("http://localhost:5000/send", {
+    await axios.post("https://whatsapp-clone-qi4h.onrender.com/send", {
       waId: activeWaId,
       conversationId: activeWaId,
       body: input
@@ -90,7 +90,7 @@ function App() {
       {/* Main content area */}
       <main className="flex flex-col flex-1 bg-[#ece5dd]">
         {/* Header with sidebar toggle on mobile */}
-        <header className="p-3 flex items-center justify-between border-b border-gray-300 bg-green-50">
+        <header className="px-3 py-2 flex items-center justify-between border-b border-gray-300 bg-green-50">
         {/* LEFT: Chat name & Mobile menu */}
           <div className="flex items-center min-w-0">
             {/* Hamburger (Mobile only) */}
@@ -104,7 +104,9 @@ function App() {
 
             {/* Chat Name */}
             <b className="truncate text-base md:text-lg font-medium">
-              {chats.find(c => c.waId === activeWaId)?.name || "Select a chat"}
+              {chats.find(c => c.waId === activeWaId)?.name || <span>
+                <ArrowLeftStartOnRectangleIcon className="inline h-6 w-6 text-gray-500" /><span> Select a chat </span></span>
+              }
             </b>
           </div>
 
